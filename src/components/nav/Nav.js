@@ -1,9 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import Modal from '@material-ui/core/Modal';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles } from '@material-ui/core/styles';
@@ -25,13 +24,13 @@ const Nav = () => {
   }));
 
   googleProvider.setCustomParameters({
-  login_hint: 'xxxxx@ktgps.edu.hk',
-  prompt: 'select_account',
-  hd:'ktgps.edu.hk'
+    login_hint: 'xxxxx@ktgps.edu.hk',
+    prompt: 'select_account',
+    hd: 'ktgps.edu.hk',
   });
 
   const signInWithGoogle = async () => {
-    const result = await auth
+    await auth
       .signInWithPopup(googleProvider)
       .then((res) => {
         console.log(res.user);
@@ -69,7 +68,7 @@ const Nav = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant='h6' className={classes.title}>
-            考績觀課時間表 {!user && '（請先於右上角登入 \u2192）' }
+            考績觀課時間表 {!user && '（請先於右上角登入 \u2192）'}
           </Typography>
           <div
             id='firebaseui-auth-container'
@@ -84,8 +83,7 @@ const Nav = () => {
               type='text'
               onClick={logOut}
             >
-            <Typography>
-              登出  {user.displayName}</Typography>
+              <Typography>登出 {user.displayName}</Typography>
             </Button>
           ) : (
             <Button

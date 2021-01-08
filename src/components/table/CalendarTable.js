@@ -23,7 +23,6 @@ import {
   DialogTitle,
   DialogContent,
   Typography,
-  Input
 } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -84,8 +83,10 @@ const CalendarTable = ({ user }) => {
       !args.cancel &&
       args.requestType === 'eventCreate' &&
       !isNullOrUndefined(args.data[0]) &&
-      !isNullOrUndefined(initial.current.value)&&
-      (major.current.value && classID.current.value && initial.current.value) !== ''
+      !isNullOrUndefined(initial.current.value) &&
+      (major.current.value &&
+        classID.current.value &&
+        initial.current.value) !== ''
     ) {
       db.collection('Events')
         .where('Teacher', '==', user.uid)
@@ -407,35 +408,81 @@ const CalendarTable = ({ user }) => {
     return props !== undefined ? (
       <form>
         <TextField
-          fullWidth
           required
-          autoFocus
-          // value={isNullOrUndefined(props.Initial) ? initialVal : props.Initial}
-          // error={!props.Initial && initialVal.length !== 1}
-          // maxLength={1}
-//           onChange={(e) => {    
-//             e.persist();
-// e.preventDefault();  setInitialVal(e.target.value);}}
           id='Initial'
-          inputRef={initial}
-          disabled={!isNullOrUndefined(props.Initial)}
-          // value={isNullOrUndefined(props.Initial) ? isNullOrUndefined(initialVal)?"":initialVal : props.Initial}
-          defaultValue={isNullOrUndefined(props.Initial) ? "" : props.Initial}
-          label='老師代號'
-          className={classes.formControl}
-          // helperText='限制長度：一個漢字'
-          InputLabelProps={{
-            shrink: true,
+          data-name='initial'
+          value={isNullOrUndefined(props.Initial) ? initialVal : props.Initial}
+          error={!props.Initial && initialVal === ''}
+          onChange={(e) => {
+            e.preventDefault();
+            setInitialVal(e.target.value);
           }}
-          // variant='outlined'
-        />
+          disabled={!isNullOrUndefined(props.Initial)}
+          label=' 老師代號'
+          defaultValue={isNullOrUndefined(props.Initial) ? '' : props.Initial}
+          inputRef={initial}
+          select
+          className={classes.formControl}
+          helperText='請選擇您的代號'
+          variant='outlined'
+        >
+          <MenuItem value='林'>林</MenuItem>
+          <MenuItem value='吳'>吳</MenuItem>
+          <MenuItem value='貞'>貞</MenuItem>
+          <MenuItem value='關'>關</MenuItem>
+          <MenuItem value='麥'>麥</MenuItem>
+          <MenuItem value='嫻'>嫻</MenuItem>
+          <MenuItem value='銳'>銳</MenuItem>
+          <MenuItem value='芬'>芬</MenuItem>
+          <MenuItem value='湯'>湯</MenuItem>
+          <MenuItem value='慕'>慕</MenuItem>
+          <MenuItem value='蒙'>蒙</MenuItem>
+          <MenuItem value='青'>青</MenuItem>
+          <MenuItem value='謙'>謙</MenuItem>
+          <MenuItem value='蘭'>蘭</MenuItem>
+          <MenuItem value='美'>美</MenuItem>
+          <MenuItem value='張'>張</MenuItem>
+          <MenuItem value='晉'>晉</MenuItem>
+          <MenuItem value='何'>何</MenuItem>
+          <MenuItem value='冼'>冼</MenuItem>
+          <MenuItem value='英'>英</MenuItem>
+          <MenuItem value='基'>基</MenuItem>
+          <MenuItem value='綺'>綺</MenuItem>
+          <MenuItem value='寶'>寶</MenuItem>
+          <MenuItem value='黃'>黃</MenuItem>
+          <MenuItem value='洪'>洪</MenuItem>
+          <MenuItem value='許'>許</MenuItem>
+          <MenuItem value='玲'>玲</MenuItem>
+          <MenuItem value='胡'>胡</MenuItem>
+          <MenuItem value='華'>華</MenuItem>
+          <MenuItem value='蕭'>蕭</MenuItem>
+          <MenuItem value='君'>君</MenuItem>
+          <MenuItem value='秀'>秀</MenuItem>
+          <MenuItem value='韋'>韋</MenuItem>
+          <MenuItem value='葉'>葉</MenuItem>
+          <MenuItem value='廖'>廖</MenuItem>
+          <MenuItem value='龔'>龔</MenuItem>
+          <MenuItem value='陳'>陳</MenuItem>
+          <MenuItem value='瑜'>瑜</MenuItem>
+          <MenuItem value='盧'>盧</MenuItem>
+          <MenuItem value='孫'>孫</MenuItem>
+          <MenuItem value='曾'>曾</MenuItem>
+          <MenuItem value='鄧'>鄧</MenuItem>
+          <MenuItem value='倩'>倩</MenuItem>
+          <MenuItem value='淳'>淳</MenuItem>
+          <MenuItem value='賴'>賴</MenuItem>
+          <MenuItem value='Tessa'>Tessa</MenuItem>
+        </TextField>
         <TextField
           required
           id='ClassID'
           data-name='classID'
-          // value={isNullOrUndefined(props.ClassID) ? classIdVal : props.ClassID}
-          // error={!props.ClassID && classIdVal === ""}
-          // onChange={(e) => {e.preventDefault();setClassIdVal(e.target.value);}}
+          value={isNullOrUndefined(props.ClassID) ? classIdVal : props.ClassID}
+          error={!props.ClassID && classIdVal === ''}
+          onChange={(e) => {
+            e.preventDefault();
+            setClassIdVal(e.target.value);
+          }}
           disabled={!isNullOrUndefined(props.ClassID)}
           label='班別'
           defaultValue={isNullOrUndefined(props.ClassID) ? '' : props.ClassID}
@@ -443,14 +490,8 @@ const CalendarTable = ({ user }) => {
           select
           className={classes.formControl}
           helperText='請選擇班別'
-          InputLabelProps={{
-            shrink: true,
-          }}
           variant='outlined'
         >
-          <MenuItem value=''>
-            <em>None</em>
-          </MenuItem>
           <MenuItem value='1A'>1A</MenuItem>
           <MenuItem value='1B'>1B</MenuItem>
           <MenuItem value='1C'>1C</MenuItem>
@@ -480,10 +521,13 @@ const CalendarTable = ({ user }) => {
           required
           id='Major'
           label='科目'
-          defaultValue={isNullOrUndefined(props.Major) ? "" : props.Major}
-          // value={isNullOrUndefined(props.Major) ? majorVal : props.Major}
-          // error={!props.Major && majorVal ===  ""}
-          // onChange={(e) => {e.preventDefault();setMajorVal(e.target.value);}}
+          defaultValue={isNullOrUndefined(props.Major) ? '' : props.Major}
+          value={isNullOrUndefined(props.Major) ? majorVal : props.Major}
+          error={!props.Major && majorVal === ''}
+          onChange={(e) => {
+            e.preventDefault();
+            setMajorVal(e.target.value);
+          }}
           disabled={!isNullOrUndefined(props.Major)}
           // onChange={(e) => {e.preventDefault();setClassIdVal(e.target.value);}}
 
@@ -492,14 +536,8 @@ const CalendarTable = ({ user }) => {
           // fullWidth
           className={classes.formControl}
           helperText='請選擇科目'
-          InputLabelProps={{
-            shrink: true,
-          }}
           variant='outlined'
         >
-          <MenuItem value=''>
-            <em>None</em>
-          </MenuItem>
           <MenuItem value='中'>中</MenuItem>
           <MenuItem value='英'>英</MenuItem>
           <MenuItem value='數'>數</MenuItem>
@@ -511,7 +549,7 @@ const CalendarTable = ({ user }) => {
           <MenuItem value='電'>電</MenuItem>
           <MenuItem value='圖'>圖</MenuItem>
         </TextField>
-        
+
         <TextField
           fullWidth
           id='StartTime'
@@ -636,7 +674,6 @@ const CalendarTable = ({ user }) => {
           </Button>
         </DialogActions>
       </Dialog>
-    
     </>
   );
 };
