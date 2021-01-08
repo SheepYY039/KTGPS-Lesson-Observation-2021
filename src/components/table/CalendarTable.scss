@@ -1,0 +1,24 @@
+.active {
+  background-color: rgb(255, 158, 158) !important ;
+}
+
+td.e-work-cells.e-work-hours.e-lunch-hours {
+  background-color: gray !important;
+  pointer-events: none;
+}
+
+.MuiPopover-root {
+  z-index: 3147483647 !important;
+}
+
+.e-quick-popup-wrapper .e-event-popup .e-popup-footer {
+  display: block !important;
+}
+
+.e-schedule .e-block-appointment {
+  text-align: center;
+}
+
+.e-appointment.e-read-only{
+      background: #009688 !important;
+}
