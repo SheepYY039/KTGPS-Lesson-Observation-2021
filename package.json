@@ -1,7 +1,18 @@
 {
-  "name": "frontend",
+  "name": "ktgps-lesson-observation-timetable",
   "version": "0.1.0",
   "private": true,
+  "author": { 
+    "name" : "YYYEUNG",
+    "email" : "sheepyy039@gmail.com",
+    "url" : "http://barnyrubble.tumblr.com/"
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/SheepYY039/KTGPS-Lesson-Observation-2021.git"
+  },
+  "homepage": ".", 
+  "license": "MIT",
   "dependencies": {
     "@apollo/react-hooks": "^4.0.0",
     "@material-ui/core": "^4.11.2",
@@ -49,5 +60,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://guan-ke-shi-jian-biao.web.app/"
+  "proxy": "https://guan-ke-shi-jian-biao.firebaseapp.com/"
 }
