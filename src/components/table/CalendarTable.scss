@@ -22,3 +22,27 @@ td.e-work-cells.e-work-hours.e-lunch-hours {
 .e-appointment.e-read-only{
       background: #009688 !important;
 }
+
+.e-toolbar-item.e-add.e-overflow-show{
+  display: none;
+}
+
+.e-work-cells.e-alternate-cells{
+  overflow: scroll;
+}
+
+.e-schedule .e-schedule-table > tbody > tr > th, .e-schedule .e-schedule-table > tbody > tr > td {
+  white-space: pre-line !important;
+}
+
+.e-schedule .e-vertical-view .e-time-cells-wrap table td, .e-schedule .e-vertical-view .e-work-cells {
+  line-height: 1.2;
+}
+
+.e-edit.e-icons.e-control.e-btn.e-lib.e-flat.e-round.e-small.e-icon-btn{
+  display: none;
+}
+
+.e-event-edit.e-text-ellipsis.e-control.e-btn.e-lib.e-flat.e-primary{
+  display: none;
+}

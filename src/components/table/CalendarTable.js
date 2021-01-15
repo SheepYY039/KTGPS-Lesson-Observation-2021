@@ -9,11 +9,24 @@ import {
   ViewsDirective,
   ViewDirective,
 } from '@syncfusion/ej2-react-schedule';
-import { isNullOrUndefined, createElement } from '@syncfusion/ej2-base';
+import {
+  isNullOrUndefined,
+  createElement,
+  L10n,
+  loadCldr,
+} from '@syncfusion/ej2-base';
 import moment from 'moment';
 import { db } from '../services/firebase';
 import './CalendarTable.scss';
 import Dialog from '@material-ui/core/Dialog';
+import numberingSystems from 'cldr-data/supplemental/numberingSystems.json';
+import gregorian from 'cldr-data/main/zh-Hant-HK/ca-gregorian.json';
+import numbers from 'cldr-data/main/zh-Hant-HK/numbers.json';
+import timeZoneNames from 'cldr-data/main/zh-Hant-HK/timeZoneNames.json';
+import localeDisplayNames from 'cldr-data/main/zh-Hant-HK/localeDisplayNames.json';
+import delimiters from 'cldr-data/main/zh-Hant-HK/delimiters.json';
+import characters from 'cldr-data/main/zh-Hant-HK/characters.json';
+import dateFields from 'cldr-data/main/zh-Hant-HK/dateFields.json';
 
 import {
   TextField,
@@ -41,6 +54,7 @@ const CalendarTable = ({ user }) => {
   const [majorVal, setMajorVal] = useState('');
   const [startTimeVal, setStartTimeVal] = useState('');
   const [bookedLesson, setBookedLesson] = useState({ Subject: '' });
+  const [freeTeacher, setFreeTeacher] = useState('');
 
   const scheduleObj = useRef(null);
   const startTime = useRef(null);
@@ -48,6 +62,62 @@ const CalendarTable = ({ user }) => {
   const major = useRef(null);
   const classID = useRef(null);
   const initial = useRef(null);
+
+  loadCldr(
+    numberingSystems,
+    gregorian,
+    numbers,
+    timeZoneNames,
+    localeDisplayNames,
+    delimiters,
+    characters,
+    dateFields
+  );
+
+  L10n.load({
+    'zh-Hant-HK': {
+      schedule: {
+        saveButton: '儲存課堂',
+        cancelButton: '關閉視窗',
+        deleteButton: '刪除課堂',
+        newEvent: '預約課堂',
+        today: '今天',
+        week: '週',
+        workWeek: '工作週',
+        month: '月',
+        agenda: '議程',
+        noEvents: '沒有課堂',
+        emptyContainer: '今天沒有已預約的課堂。',
+        allDay: '全日',
+        start: '開始',
+        end: '結束',
+        more: '更多',
+        close: '關閉',
+        cancel: '取消',
+        noTitle: '(沒有標題)',
+        delete: '刪除',
+        deleteEvent: '刪除課堂',
+        selectedItems: '已選擇項目',
+        edit: '編輯課堂',
+        editEvent: '編輯課堂',
+        createEvent: '創建課堂',
+        addTitle: '添加標題',
+        moreDetails: '更多資訊',
+        save: '儲存課堂',
+        // deleteContent: 'Are you sure you want to delete this event?',
+        title: '標題',
+        // location: 'Location',
+        // description: 'Description',
+        // timezone: 'Timezone',
+        // startTimezone: 'Start Timezone',
+        // endTimezone: 'End Timezone',
+        alert: '通知',
+        ok: 'Ok',
+        previous: '上一個',
+        next: '下一個',
+      },
+    },
+  });
 
   useEffect(() => {
     db.collection('Events')
@@ -166,6 +236,15 @@ const CalendarTable = ({ user }) => {
     console.log(args);
     args.duration = 30;
     setStartTimeVal(args.data.StartTime);
+    let hour = args.data.StartTime.getHours();
+    let min = args.data.StartTime.getMinutes() + 15;
+    const day = args.data.StartTime.getDay();
+    if (min === 60) {
+      hour += 1;
+      min = 0;
+    }
+    const tempFreeTeacher = getFreeTeacher({ day, hour, min });
+    setFreeTeacher(tempFreeTeacher);
 
     if (args.type === 'QuickInfo' && isNullOrUndefined(args.data.Id)) {
       const dialogObj = args.element.ej2_instances[0];
@@ -199,168 +278,8 @@ const CalendarTable = ({ user }) => {
         args.element.dataset.date = (parseInt(dateStr) - 900000).toString();
       }
       let period = null;
-      let teacher = null;
+      let teacher = getFreeTeacher({ day, hour, min });
       const time = [hour, min];
-      const fullDate = [day, hour, min];
-      switch (time.toString()) {
-        case '8,15':
-          period = 1;
-          break;
-        case '8,45':
-          period = 2;
-          break;
-        case '9,15':
-          period = 3;
-          break;
-        case '10,0':
-          period = 4;
-          break;
-        case '10,30':
-          period = 5;
-          break;
-        case '11,0':
-          period = 6;
-          break;
-        case '11,45':
-          period = 7;
-          break;
-        case '12,15':
-          period = 8;
-          break;
-        default:
-          break;
-      }
-
-      switch (fullDate.toString()) {
-        // Monday
-        case '1,8,30':
-          teacher = '林 貞 關 麥 蒙 嫻 芬 慕';
-          break;
-        case '1,9,0':
-          teacher = '林 貞 關 麥 嫻 芬';
-          break;
-        case '1,9,30':
-          teacher = '林 吳 貞 麥 嫻';
-          break;
-        case '1,10,15':
-          teacher = '林 吳 貞 麥 蒙 嫻 銳';
-          break;
-        case '1,10,45':
-          teacher = '林 吳 貞 關 嫻 銳 芬 湯';
-          break;
-        case '1,11,15':
-          teacher = '嫻 湯 慕';
-          break;
-        case '1,12,0':
-          teacher = '吳 關 蒙 湯 慕';
-          break;
-        case '1,12,30':
-          teacher = '吳 關 蒙 湯 慕';
-          break;
-        // Tuesday
-        case '2,8,30':
-          teacher = '林 貞 麥 芬 湯 慕';
-          break;
-        case '2,9,0':
-          teacher = '林 貞 關 麥 蒙 嫻 芬 湯';
-          break;
-        case '2,9,30':
-          teacher = '林 貞 麥 蒙';
-          break;
-        case '2,10,15':
-          teacher = '林 吳 貞 麥 嫻 慕';
-          break;
-        case '2,10,45':
-          teacher = '吳 關 麥 嫻 慕';
-          break;
-        case '2,11,15':
-          teacher = '吳 麥 蒙 嫻';
-          break;
-        case '2,12,0':
-          teacher = '林 貞 蒙 嫻 銳 芬 湯';
-          break;
-        case '2,12,30':
-          teacher = '關 蒙 嫻 銳 湯 慕';
-          break;
-        // Wednesday
-        case '3,8,30':
-          teacher = '貞 麥 嫻 芬';
-          break;
-        case '3,9,0':
-          teacher = '貞 蒙 嫻 湯';
-          break;
-        case '3,9,30':
-          teacher = '林 關 蒙 湯 慕';
-          break;
-        case '3,10,15':
-          teacher = '林 蒙 銳 湯';
-          break;
-        case '3,10,45':
-          teacher = '林 吳 貞 關 麥 銳 芬 慕';
-          break;
-        case '3,11,15':
-          teacher = '林 貞 關 麥 嫻 銳';
-          break;
-        case '3,12,0':
-          teacher = '';
-          break;
-        case '3,12,30':
-          teacher = '';
-          break;
-        // Thursday
-        case '4,8,30':
-          teacher = '林 貞 麥 蒙 芬 湯 慕';
-          break;
-        case '4,9,0':
-          teacher = '林 貞 關 麥 蒙 嫻 芬 湯';
-          break;
-        case '4,9,30':
-          teacher = '吳 關 麥 銳 芬 湯';
-          break;
-        case '4,10,15':
-          teacher = '吳 貞 麥 嫻 慕';
-          break;
-        case '4,10,45':
-          teacher = '林 嫻 慕';
-          break;
-        case '4,11,15':
-          teacher = '林 蒙 嫻 銳';
-          break;
-        case '4,12,0':
-          teacher = '林 吳 貞 關 蒙 銳 湯 慕';
-          break;
-        case '4,12,30':
-          teacher = '林 吳 貞 關 蒙 湯 慕';
-          break;
-        // Friday
-        case '5,8,30':
-          teacher = '林 貞 關 麥 蒙 嫻 芬';
-          break;
-        case '5,9,0':
-          teacher = '貞 關 蒙 嫻 芬 湯 慕';
-          break;
-        case '5,9,30':
-          teacher = '吳 關 湯 慕';
-          break;
-        case '5,10,15':
-          teacher = '林 麥 銳 慕';
-          break;
-        case '5,10,45':
-          teacher = '林 貞 嫻 銳 慕';
-          break;
-        case '5,11,15':
-          teacher = '林 貞 蒙 銳 湯';
-          break;
-        case '5,12,0':
-          teacher = '課外活動';
-          break;
-        case '5,12,30':
-          teacher = '課外活動';
-          break;
-        default:
-          break;
-      }
-
       switch (time.toString()) {
         case '8,15':
           period = 1;
@@ -404,7 +323,143 @@ const CalendarTable = ({ user }) => {
     }
   };
 
+  const getFreeTeacher = ({ day, hour, min }) => {
+    const fullDate = [day, hour, min];
+    let teacher = null;
+    switch (fullDate.toString()) {
+      // Monday
+      case '1,8,30':
+        teacher = '林 貞 關 麥 蒙 嫻 芬 慕';
+        break;
+      case '1,9,0':
+        teacher = '林 貞 關 麥 嫻 芬';
+        break;
+      case '1,9,30':
+        teacher = '林 吳 貞 麥 嫻';
+        break;
+      case '1,10,15':
+        teacher = '林 吳 貞 麥 蒙 嫻 銳';
+        break;
+      case '1,10,45':
+        teacher = '林 吳 貞 關 嫻 銳 芬 湯';
+        break;
+      case '1,11,15':
+        teacher = '嫻 湯 慕';
+        break;
+      case '1,12,0':
+        teacher = '吳 關 蒙 湯 慕';
+        break;
+      case '1,12,30':
+        teacher = '吳 關 蒙 湯 慕';
+        break;
+      // Tuesday
+      case '2,8,30':
+        teacher = '林 貞 麥 芬 湯 慕';
+        break;
+      case '2,9,0':
+        teacher = '林 貞 關 麥 蒙 嫻 芬 湯';
+        break;
+      case '2,9,30':
+        teacher = '林 貞 麥 蒙';
+        break;
+      case '2,10,15':
+        teacher = '林 吳 貞 麥 嫻 慕';
+        break;
+      case '2,10,45':
+        teacher = '吳 關 麥 嫻 慕';
+        break;
+      case '2,11,15':
+        teacher = '吳 麥 蒙 嫻';
+        break;
+      case '2,12,0':
+        teacher = '林 貞 蒙 嫻 銳 芬 湯';
+        break;
+      case '2,12,30':
+        teacher = '關 蒙 嫻 銳 湯 慕';
+        break;
+      // Wednesday
+      case '3,8,30':
+        teacher = '貞 麥 嫻 芬';
+        break;
+      case '3,9,0':
+        teacher = '貞 蒙 嫻 湯';
+        break;
+      case '3,9,30':
+        teacher = '林 關 蒙 湯 慕';
+        break;
+      case '3,10,15':
+        teacher = '林 蒙 銳 湯';
+        break;
+      case '3,10,45':
+        teacher = '林 吳 貞 關 麥 銳 芬 慕';
+        break;
+      case '3,11,15':
+        teacher = '林 貞 關 麥 嫻 銳';
+        break;
+      case '3,12,0':
+        teacher = '';
+        break;
+      case '3,12,30':
+        teacher = '';
+        break;
+      // Thursday
+      case '4,8,30':
+        teacher = '林 貞 麥 蒙 芬 湯 慕';
+        break;
+      case '4,9,0':
+        teacher = '林 貞 關 麥 蒙 嫻 芬 湯';
+        break;
+      case '4,9,30':
+        teacher = '吳 關 麥 銳 芬 湯';
+        break;
+      case '4,10,15':
+        teacher = '吳 貞 麥 嫻 慕';
+        break;
+      case '4,10,45':
+        teacher = '林 嫻 慕';
+        break;
+      case '4,11,15':
+        teacher = '林 蒙 嫻 銳';
+        break;
+      case '4,12,0':
+        teacher = '林 吳 貞 關 蒙 銳 湯 慕';
+        break;
+      case '4,12,30':
+        teacher = '林 吳 貞 關 蒙 湯 慕';
+        break;
+      // Friday
+      case '5,8,30':
+        teacher = '林 貞 關 麥 蒙 嫻 芬';
+        break;
+      case '5,9,0':
+        teacher = '貞 關 蒙 嫻 芬 湯 慕';
+        break;
+      case '5,9,30':
+        teacher = '吳 關 湯 慕';
+        break;
+      case '5,10,15':
+        teacher = '林 麥 銳 慕';
+        break;
+      case '5,10,45':
+        teacher = '林 貞 嫻 銳 慕';
+        break;
+      case '5,11,15':
+        teacher = '林 貞 蒙 銳 湯';
+        break;
+      case '5,12,0':
+        teacher = '課外活動';
+        break;
+      case '5,12,30':
+        teacher = '課外活動';
+        break;
+      default:
+        break;
+    }
+    return teacher;
+  };
+
   const editorTemplate = (props) => {
+    console.log(props);
     return props !== undefined ? (
       <form>
         <TextField
@@ -418,7 +473,7 @@ const CalendarTable = ({ user }) => {
             setInitialVal(e.target.value);
           }}
           disabled={!isNullOrUndefined(props.Initial)}
-          label=' 老師代號'
+          label='老師代號'
           defaultValue={isNullOrUndefined(props.Initial) ? '' : props.Initial}
           inputRef={initial}
           select
@@ -546,10 +601,9 @@ const CalendarTable = ({ user }) => {
           <MenuItem value='音'>音</MenuItem>
           <MenuItem value='體'>體</MenuItem>
           <MenuItem value='普'>普</MenuItem>
-          <MenuItem value='電'>電</MenuItem>
+          <MenuItem value='資'>資</MenuItem>
           <MenuItem value='圖'>圖</MenuItem>
         </TextField>
-
         <TextField
           fullWidth
           id='StartTime'
@@ -563,6 +617,7 @@ const CalendarTable = ({ user }) => {
             shrink: true,
           }}
           variant='outlined'
+          helperText='Disabled'
           inputProps={{
             step: 900,
           }}
@@ -575,6 +630,7 @@ const CalendarTable = ({ user }) => {
           className={classes.formControl}
           type='datetime-local'
           disabled
+          helperText='Disabled'
           value={moment(startTimeVal)
             .add(30, 'minutes')
             .format('YYYY-MM-DDTHH:mm')}
@@ -584,6 +640,17 @@ const CalendarTable = ({ user }) => {
           variant='outlined'
           inputProps={{
             step: 900,
+          }}
+        />
+        <TextField
+          fullWidth
+          id='standard-read-only-input'
+          label='空堂主任'
+          className={classes.formControl}
+          defaultValue={freeTeacher}
+          variant='outlined'
+          InputProps={{
+            readOnly: true,
           }}
         />
       </form>
@@ -612,6 +679,7 @@ const CalendarTable = ({ user }) => {
       <ScheduleComponent
         width='80vw'
         height='90vh'
+        locale='zh-Hant-HK'
         ref={scheduleObj}
         currentView='WorkWeek'
         selectedDate={new Date(2021, 0, 18)}

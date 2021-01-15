@@ -2,16 +2,16 @@
   "name": "ktgps-lesson-observation-timetable",
   "version": "0.1.0",
   "private": true,
-  "author": { 
-    "name" : "YYYEUNG",
-    "email" : "sheepyy039@gmail.com",
-    "url" : "http://barnyrubble.tumblr.com/"
+  "author": {
+    "name": "YYYEUNG",
+    "email": "sheepyy039@gmail.com",
+    "url": "http://barnyrubble.tumblr.com/"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/SheepYY039/KTGPS-Lesson-Observation-2021.git"
+    "type": "git",
+    "url": "https://github.com/SheepYY039/KTGPS-Lesson-Observation-2021.git"
   },
-  "homepage": ".", 
+  "homepage": ".",
   "license": "MIT",
   "dependencies": {
     "@apollo/react-hooks": "^4.0.0",
@@ -25,6 +25,7 @@
     "apollo-client": "^2.6.10",
     "apollo-link-context": "^1.0.20",
     "apollo-upload-client": "^14.1.3",
+    "cldr-data": "^36.0.0",
     "dotenv": "^8.2.0",
     "firebase": "^8.2.1",
     "firebaseui": "^4.7.1",
@@ -60,5 +61,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://guan-ke-shi-jian-biao.firebaseapp.com/"
+  "proxy": "https://guan-ke-shi-jian-biao.firebaseapp.com/",
+  "devDependencies": {
+    "systemjs-plugin-json": "^0.3.0"
+  }
 }
