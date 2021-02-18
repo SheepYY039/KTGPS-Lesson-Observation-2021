@@ -127,7 +127,9 @@ const CalendarTable = ({ user }) => {
           const tmp = doc.data();
           tmp.Id = doc.id;
           tmp.IsReadonly = true;
-          if (user && tmp.Teacher === user.uid) {
+          var start = moment(tmp.StartTime);
+          var now = moment();
+          if (user && tmp.Teacher === user.uid && now.diff(start, 'days') > 8) {
             tmp.IsReadonly = false;
           }
           return tmp;
@@ -682,7 +684,7 @@ const CalendarTable = ({ user }) => {
         locale='zh-Hant-HK'
         ref={scheduleObj}
         currentView='WorkWeek'
-        selectedDate={new Date(2021, 0, 18)}
+        // selectedDate={new Date(2021, 1, 18)}
         startHour='8:00'
         endHour='13:00'
         workHours={{
@@ -695,8 +697,8 @@ const CalendarTable = ({ user }) => {
           dataSource: data,
         }}
         // showTimeIndicator={true}
-        minDate={new Date(2021, 0, 18)}
-        maxDate={new Date(2021, 1, 12)}
+        minDate={new Date(2021, 2, 1)}
+        maxDate={new Date(2021, 4, 31)}
         quickInfoTemplates={{
           content: editorTemplate.bind(this),
         }}
