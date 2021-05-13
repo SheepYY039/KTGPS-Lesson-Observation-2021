@@ -331,7 +331,7 @@ const CalendarTable = ({ user }) => {
     switch (fullDate.toString()) {
       // Monday
       case '1,8,30':
-        teacher = '林 貞 關 麥 蒙 嫻 芬 慕';
+        teacher = '林 貞 關 麥 嫻 銳 芬 慕 蒙';
         break;
       case '1,9,0':
         teacher = '林 貞 關 麥 嫻 芬';
@@ -340,7 +340,7 @@ const CalendarTable = ({ user }) => {
         teacher = '林 吳 貞 麥 嫻';
         break;
       case '1,10,15':
-        teacher = '林 吳 貞 麥 蒙 嫻 銳';
+        teacher = '林 吳 貞 麥 嫻 銳 蒙';
         break;
       case '1,10,45':
         teacher = '林 吳 貞 關 嫻 銳 芬 湯';
@@ -349,17 +349,17 @@ const CalendarTable = ({ user }) => {
         teacher = '嫻 湯 慕';
         break;
       case '1,12,0':
-        teacher = '吳 關 蒙 湯 慕';
+        teacher = '吳 關 湯 慕 蒙';
         break;
       case '1,12,30':
-        teacher = '吳 關 蒙 湯 慕';
+        teacher = '吳 關 湯 慕 蒙';
         break;
       // Tuesday
       case '2,8,30':
-        teacher = '林 貞 麥 芬 湯 慕';
+        teacher = '林 貞 麥 銳 芬 湯 慕';
         break;
       case '2,9,0':
-        teacher = '林 貞 關 麥 蒙 嫻 芬 湯';
+        teacher = '林 貞 關 麥 嫻 芬 湯 蒙';
         break;
       case '2,9,30':
         teacher = '林 貞 麥 蒙';
@@ -371,26 +371,26 @@ const CalendarTable = ({ user }) => {
         teacher = '吳 關 麥 嫻 慕';
         break;
       case '2,11,15':
-        teacher = '吳 麥 蒙 嫻';
+        teacher = '吳 麥 嫻 蒙';
         break;
       case '2,12,0':
-        teacher = '林 貞 蒙 嫻 銳 芬 湯';
+        teacher = '林 貞 嫻 銳 芬 湯 蒙';
         break;
       case '2,12,30':
-        teacher = '關 蒙 嫻 銳 湯 慕';
+        teacher = '關 嫻 銳 湯 慕 蒙';
         break;
       // Wednesday
       case '3,8,30':
-        teacher = '貞 麥 嫻 芬';
+        teacher = '貞 麥 嫻 銳 芬';
         break;
       case '3,9,0':
-        teacher = '貞 蒙 嫻 湯';
+        teacher = '貞 嫻 湯 蒙';
         break;
       case '3,9,30':
-        teacher = '林 關 蒙 湯 慕';
+        teacher = '林 關 湯 慕 蒙';
         break;
       case '3,10,15':
-        teacher = '林 蒙 銳 湯';
+        teacher = '林 銳 湯 蒙';
         break;
       case '3,10,45':
         teacher = '林 吳 貞 關 麥 銳 芬 慕';
@@ -406,10 +406,10 @@ const CalendarTable = ({ user }) => {
         break;
       // Thursday
       case '4,8,30':
-        teacher = '林 貞 麥 蒙 芬 湯 慕';
+        teacher = '林 貞 麥 銳 芬 湯 慕 蒙';
         break;
       case '4,9,0':
-        teacher = '林 貞 關 麥 蒙 嫻 芬 湯';
+        teacher = '林 貞 關 麥 嫻 芬 湯 蒙';
         break;
       case '4,9,30':
         teacher = '吳 關 麥 銳 芬 湯';
@@ -421,20 +421,20 @@ const CalendarTable = ({ user }) => {
         teacher = '林 嫻 慕';
         break;
       case '4,11,15':
-        teacher = '林 蒙 嫻 銳';
+        teacher = '林 嫻 銳 蒙';
         break;
       case '4,12,0':
-        teacher = '林 吳 貞 關 蒙 銳 湯 慕';
+        teacher = '林 吳 貞 關 銳 湯 慕 蒙';
         break;
       case '4,12,30':
-        teacher = '林 吳 貞 關 蒙 湯 慕';
+        teacher = '林 吳 貞 關 湯 慕 蒙';
         break;
       // Friday
       case '5,8,30':
-        teacher = '林 貞 關 麥 蒙 嫻 芬';
+        teacher = '林 貞 關 麥 嫻 銳 芬 蒙';
         break;
       case '5,9,0':
-        teacher = '貞 關 蒙 嫻 芬 湯 慕';
+        teacher = '貞 關 嫻 芬 湯 慕 蒙';
         break;
       case '5,9,30':
         teacher = '吳 關 湯 慕';
@@ -446,7 +446,7 @@ const CalendarTable = ({ user }) => {
         teacher = '林 貞 嫻 銳 慕';
         break;
       case '5,11,15':
-        teacher = '林 貞 蒙 銳 湯';
+        teacher = '林 貞 銳 湯 蒙';
         break;
       case '5,12,0':
         teacher = '課外活動';
@@ -698,7 +698,7 @@ const CalendarTable = ({ user }) => {
         }}
         // showTimeIndicator={true}
         minDate={new Date(2021, 2, 1)}
-        maxDate={new Date(2021, 4, 31)}
+        maxDate={new Date(2021, 5, 18)}
         quickInfoTemplates={{
           content: editorTemplate.bind(this),
         }}
