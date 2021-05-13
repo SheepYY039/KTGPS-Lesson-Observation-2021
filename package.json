@@ -1,11 +1,10 @@
 {
   "name": "ktgps-lesson-observation-timetable",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "author": {
     "name": "YYYEUNG",
-    "email": "sheepyy039@gmail.com",
-    "url": "http://barnyrubble.tumblr.com/"
+    "email": "sheepyy039@gmail.com"
   },
   "repository": {
     "type": "git",
