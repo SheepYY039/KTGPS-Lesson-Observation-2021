@@ -2,6 +2,13 @@
 
 預約觀課時間
 
+1. node version: v14.17.4
+1. install all dependencies using yarn
+1. install firebase-cli globally `yarn global add firebase-tools`
+1. login to firebase `firebase login`
+1. build the project using `yarn build`
+1. deploy the project to firebase hosting using `firebase deploy`
+
 ## Available Scripts
 
 In the project directory, you can run:
