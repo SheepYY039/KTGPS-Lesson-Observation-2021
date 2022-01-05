@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useState, useRef, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   ScheduleComponent,
   WorkWeek,
@@ -8,25 +8,25 @@ import {
   Inject,
   ViewsDirective,
   ViewDirective,
-} from '@syncfusion/ej2-react-schedule';
+} from "@syncfusion/ej2-react-schedule";
 import {
   isNullOrUndefined,
   createElement,
   L10n,
   loadCldr,
-} from '@syncfusion/ej2-base';
-import moment from 'moment';
-import { db } from '../services/firebase';
-import './CalendarTable.scss';
-import Dialog from '@material-ui/core/Dialog';
-import numberingSystems from 'cldr-data/supplemental/numberingSystems.json';
-import gregorian from 'cldr-data/main/zh-Hant-HK/ca-gregorian.json';
-import numbers from 'cldr-data/main/zh-Hant-HK/numbers.json';
-import timeZoneNames from 'cldr-data/main/zh-Hant-HK/timeZoneNames.json';
-import localeDisplayNames from 'cldr-data/main/zh-Hant-HK/localeDisplayNames.json';
-import delimiters from 'cldr-data/main/zh-Hant-HK/delimiters.json';
-import characters from 'cldr-data/main/zh-Hant-HK/characters.json';
-import dateFields from 'cldr-data/main/zh-Hant-HK/dateFields.json';
+} from "@syncfusion/ej2-base";
+import moment from "moment";
+import { db } from "../services/firebase";
+import "./CalendarTable.scss";
+import Dialog from "@material-ui/core/Dialog";
+import numberingSystems from "cldr-data/supplemental/numberingSystems.json";
+import gregorian from "cldr-data/main/zh-Hant-HK/ca-gregorian.json";
+import numbers from "cldr-data/main/zh-Hant-HK/numbers.json";
+import timeZoneNames from "cldr-data/main/zh-Hant-HK/timeZoneNames.json";
+import localeDisplayNames from "cldr-data/main/zh-Hant-HK/localeDisplayNames.json";
+import delimiters from "cldr-data/main/zh-Hant-HK/delimiters.json";
+import characters from "cldr-data/main/zh-Hant-HK/characters.json";
+import dateFields from "cldr-data/main/zh-Hant-HK/dateFields.json";
 
 import {
   TextField,
@@ -36,7 +36,7 @@ import {
   DialogTitle,
   DialogContent,
   Typography,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -49,12 +49,12 @@ const CalendarTable = ({ user }) => {
   const classes = useStyles();
   const [data, setData] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const [initialVal, setInitialVal] = useState('');
-  const [classIdVal, setClassIdVal] = useState('');
-  const [majorVal, setMajorVal] = useState('');
-  const [startTimeVal, setStartTimeVal] = useState('');
-  const [bookedLesson, setBookedLesson] = useState({ Subject: '' });
-  const [freeTeacher, setFreeTeacher] = useState('');
+  const [initialVal, setInitialVal] = useState("");
+  const [classIdVal, setClassIdVal] = useState("");
+  const [majorVal, setMajorVal] = useState("");
+  const [startTimeVal, setStartTimeVal] = useState("");
+  const [bookedLesson, setBookedLesson] = useState({ Subject: "" });
+  const [freeTeacher, setFreeTeacher] = useState("");
 
   const scheduleObj = useRef(null);
   const startTime = useRef(null);
@@ -74,53 +74,48 @@ const CalendarTable = ({ user }) => {
     dateFields
   );
 
+  // i18n
   L10n.load({
-    'zh-Hant-HK': {
+    "zh-Hant-HK": {
       schedule: {
-        saveButton: '儲存課堂',
-        cancelButton: '關閉視窗',
-        deleteButton: '刪除課堂',
-        newEvent: '預約課堂',
-        today: '今天',
-        week: '週',
-        workWeek: '工作週',
-        month: '月',
-        agenda: '議程',
-        noEvents: '沒有課堂',
-        emptyContainer: '今天沒有已預約的課堂。',
-        allDay: '全日',
-        start: '開始',
-        end: '結束',
-        more: '更多',
-        close: '關閉',
-        cancel: '取消',
-        noTitle: '(沒有標題)',
-        delete: '刪除',
-        deleteEvent: '刪除課堂',
-        selectedItems: '已選擇項目',
-        edit: '編輯課堂',
-        editEvent: '編輯課堂',
-        createEvent: '創建課堂',
-        addTitle: '添加標題',
-        moreDetails: '更多資訊',
-        save: '儲存課堂',
-        // deleteContent: 'Are you sure you want to delete this event?',
-        title: '標題',
-        // location: 'Location',
-        // description: 'Description',
-        // timezone: 'Timezone',
-        // startTimezone: 'Start Timezone',
-        // endTimezone: 'End Timezone',
-        alert: '通知',
-        ok: 'Ok',
-        previous: '上一個',
-        next: '下一個',
+        saveButton: "儲存課堂",
+        cancelButton: "關閉視窗",
+        deleteButton: "刪除課堂",
+        newEvent: "預約課堂",
+        today: "今天",
+        week: "週",
+        workWeek: "工作週",
+        month: "月",
+        agenda: "議程",
+        noEvents: "沒有課堂",
+        emptyContainer: "今天沒有已預約的課堂。",
+        allDay: "全日",
+        start: "開始",
+        end: "結束",
+        more: "更多",
+        close: "關閉",
+        cancel: "取消",
+        noTitle: "(沒有標題)",
+        delete: "刪除",
+        deleteEvent: "刪除課堂",
+        selectedItems: "已選擇項目",
+        edit: "編輯課堂",
+        editEvent: "編輯課堂",
+        createEvent: "創建課堂",
+        addTitle: "添加標題",
+        moreDetails: "更多資訊",
+        save: "儲存課堂",
+        title: "標題",
+        alert: "通知",
+        ok: "Ok",
+        previous: "上一個",
+        next: "下一個",
       },
     },
   });
 
   useEffect(() => {
-    db.collection('Events')
+    db.collection("Events")
       .get()
       .then((querySnapshot) => {
         const tmpData = querySnapshot.docs.map((doc) => {
@@ -129,7 +124,7 @@ const CalendarTable = ({ user }) => {
           tmp.IsReadonly = true;
           var start = moment(tmp.StartTime);
           var now = moment();
-          if (user && tmp.Teacher === user.uid && now.diff(start, 'days') > 8) {
+          if (user && tmp.Teacher === user.uid && now.diff(start, "days") > 8) {
             tmp.IsReadonly = false;
           }
           return tmp;
@@ -144,7 +139,7 @@ const CalendarTable = ({ user }) => {
   const onActionBegin = (args) => {
     console.log(scheduleObj.current);
 
-    if (args.requestType === 'eventCreate' && args.data.length > 0) {
+    if (args.requestType === "eventCreate" && args.data.length > 0) {
       args.cancel = !scheduleObj.current.isSlotAvailable(
         startTime.current.value,
         endTime.current.value
@@ -153,22 +148,22 @@ const CalendarTable = ({ user }) => {
     console.log(args);
     if (
       !args.cancel &&
-      args.requestType === 'eventCreate' &&
+      args.requestType === "eventCreate" &&
       !isNullOrUndefined(args.data[0]) &&
       !isNullOrUndefined(initial.current.value) &&
       (major.current.value &&
         classID.current.value &&
-        initial.current.value) !== ''
+        initial.current.value) !== ""
     ) {
-      db.collection('Events')
-        .where('Teacher', '==', user.uid)
+      db.collection("Events")
+        .where("Teacher", "==", user.uid)
         .get()
         .then((snapshot) => {
           console.log(snapshot.docs);
           console.log(snapshot.docs.length === 0);
           if (snapshot.docs.length === 0) {
             console.log(args);
-            const ref = db.collection('Events').doc();
+            const ref = db.collection("Events").doc();
             args.data[0].Id = ref.id;
             if (!isNullOrUndefined(args.data[0].Id)) {
               args.data[0].Major = major.current.value;
@@ -178,7 +173,7 @@ const CalendarTable = ({ user }) => {
               args.data[0].StartTime = moment(startTime.current.value).format();
               args.data[0].EndTime = moment(endTime.current.value).format();
 
-              db.collection('Events')
+              db.collection("Events")
                 .doc(args.data[0].Id)
                 .set(
                   {
@@ -194,11 +189,11 @@ const CalendarTable = ({ user }) => {
                   { merge: true }
                 )
                 .then(() => {
-                  console.log('Document successfully written!');
+                  console.log("Document successfully written!");
                   scheduleObj.current.refreshEvents();
                 })
                 .catch(function (error) {
-                  console.error('Error writing document: ', error);
+                  console.error("Error writing document: ", error);
                 });
             }
           } else {
@@ -208,27 +203,27 @@ const CalendarTable = ({ user }) => {
             console.log(tmpBooked);
             snapshot.forEach((doc) => {
               // doc.data() is never undefined for query doc snapshots
-              console.log(doc.id, ' => ', doc.data());
+              console.log(doc.id, " => ", doc.data());
             });
             setModalOpen(true);
           }
         })
         .catch((error) => {
-          console.log('Error getting documents: ', error);
+          console.log("Error getting documents: ", error);
         });
     }
 
-    if (args.requestType === 'eventRemove' && args.deletedRecords[0]) {
+    if (args.requestType === "eventRemove" && args.deletedRecords[0]) {
       console.log(args);
-      db.collection('Events')
+      db.collection("Events")
         .doc(args.deletedRecords[0].Id)
         .delete()
         .then(function () {
-          console.log('Document successfully deleted!');
+          console.log("Document successfully deleted!");
           args.cancel = true;
         })
         .catch(function (error) {
-          console.error('Error removing document: ', error);
+          console.error("Error removing document: ", error);
         });
     }
   };
@@ -248,20 +243,20 @@ const CalendarTable = ({ user }) => {
     const tempFreeTeacher = getFreeTeacher({ day, hour, min });
     setFreeTeacher(tempFreeTeacher);
 
-    if (args.type === 'QuickInfo' && isNullOrUndefined(args.data.Id)) {
+    if (args.type === "QuickInfo" && isNullOrUndefined(args.data.Id)) {
       const dialogObj = args.element.ej2_instances[0];
       dialogObj.hide();
 
-      const currentAction = args.target.classList.contains('e-work-cells')
-        ? 'Add'
-        : 'Save';
+      const currentAction = args.target.classList.contains("e-work-cells")
+        ? "Add"
+        : "Save";
       scheduleObj.current.openEditor(args.data, currentAction);
       console.log(scheduleObj);
     }
   };
 
   const onRenderCell = (args) => {
-    if (args.elementType === 'workCells') {
+    if (args.elementType === "workCells") {
       const hour = args.date.getHours();
       const min = args.date.getMinutes();
       const day = args.date.getDay();
@@ -273,7 +268,7 @@ const CalendarTable = ({ user }) => {
         (hour === 12 && min === 15)
       ) {
         // if (args.element.dataset.date.toString() === moment(date).valueOf().toString()) {
-        args.element.style.borderBottom = '0px';
+        args.element.style.borderBottom = "0px";
         // }
       } else {
         const dateStr = args.element.dataset.date;
@@ -283,28 +278,28 @@ const CalendarTable = ({ user }) => {
       let teacher = getFreeTeacher({ day, hour, min });
       const time = [hour, min];
       switch (time.toString()) {
-        case '8,15':
+        case "8,15":
           period = 1;
           break;
-        case '8,45':
+        case "8,45":
           period = 2;
           break;
-        case '9,15':
+        case "9,15":
           period = 3;
           break;
-        case '10,0':
+        case "10,0":
           period = 4;
           break;
-        case '10,30':
+        case "10,30":
           period = 5;
           break;
-        case '11,0':
+        case "11,0":
           period = 6;
           break;
-        case '11,45':
+        case "11,45":
           period = 7;
           break;
-        case '12,15':
+        case "12,15":
           period = 8;
           break;
         default:
@@ -312,12 +307,12 @@ const CalendarTable = ({ user }) => {
       }
 
       if (!isNullOrUndefined(period)) {
-        let ele = createElement('Typography', {
+        let ele = createElement("Typography", {
           innerHTML: `第${period}節`,
         });
         args.element.appendChild(ele);
       } else if (!isNullOrUndefined(teacher)) {
-        let eleTeacher = createElement('Typography', {
+        let eleTeacher = createElement("Typography", {
           innerHTML: teacher,
         });
         args.element.appendChild(eleTeacher);
@@ -328,131 +323,133 @@ const CalendarTable = ({ user }) => {
   const getFreeTeacher = ({ day, hour, min }) => {
     const fullDate = [day, hour, min];
     let teacher = null;
+
+    // 觀課老師得閒
     switch (fullDate.toString()) {
       // Monday
-      case '1,8,30':
-        teacher = '林 貞 關 麥 嫻 銳 芬 慕 蒙';
+      case "1,8,30":
+        teacher = "林 貞 關 麥 嫻 銳 芬 慕 蒙";
         break;
-      case '1,9,0':
-        teacher = '林 貞 關 麥 嫻 芬';
+      case "1,9,0":
+        teacher = "林 貞 關 麥 嫻 芬";
         break;
-      case '1,9,30':
-        teacher = '林 吳 貞 麥 嫻';
+      case "1,9,30":
+        teacher = "林 吳 貞 麥 嫻";
         break;
-      case '1,10,15':
-        teacher = '林 吳 貞 麥 嫻 銳 蒙';
+      case "1,10,15":
+        teacher = "林 吳 貞 麥 嫻 銳 蒙";
         break;
-      case '1,10,45':
-        teacher = '林 吳 貞 關 嫻 銳 芬 湯';
+      case "1,10,45":
+        teacher = "林 吳 貞 關 嫻 銳 芬 湯";
         break;
-      case '1,11,15':
-        teacher = '嫻 湯 慕';
+      case "1,11,15":
+        teacher = "嫻 湯 慕";
         break;
-      case '1,12,0':
-        teacher = '吳 關 湯 慕 蒙';
+      case "1,12,0":
+        teacher = "吳 關 湯 慕 蒙";
         break;
-      case '1,12,30':
-        teacher = '吳 關 湯 慕 蒙';
+      case "1,12,30":
+        teacher = "吳 關 湯 慕 蒙";
         break;
       // Tuesday
-      case '2,8,30':
-        teacher = '林 貞 麥 銳 芬 湯 慕';
+      case "2,8,30":
+        teacher = "林 貞 麥 銳 芬 湯 慕";
         break;
-      case '2,9,0':
-        teacher = '林 貞 關 麥 嫻 芬 湯 蒙';
+      case "2,9,0":
+        teacher = "林 貞 關 麥 嫻 芬 湯 蒙";
         break;
-      case '2,9,30':
-        teacher = '林 貞 麥 蒙';
+      case "2,9,30":
+        teacher = "林 貞 麥 蒙";
         break;
-      case '2,10,15':
-        teacher = '林 吳 貞 麥 嫻 慕';
+      case "2,10,15":
+        teacher = "林 吳 貞 麥 嫻 慕";
         break;
-      case '2,10,45':
-        teacher = '吳 關 麥 嫻 慕';
+      case "2,10,45":
+        teacher = "吳 關 麥 嫻 慕";
         break;
-      case '2,11,15':
-        teacher = '吳 麥 嫻 蒙';
+      case "2,11,15":
+        teacher = "吳 麥 嫻 蒙";
         break;
-      case '2,12,0':
-        teacher = '林 貞 嫻 銳 芬 湯 蒙';
+      case "2,12,0":
+        teacher = "林 貞 嫻 銳 芬 湯 蒙";
         break;
-      case '2,12,30':
-        teacher = '關 嫻 銳 湯 慕 蒙';
+      case "2,12,30":
+        teacher = "關 嫻 銳 湯 慕 蒙";
         break;
       // Wednesday
-      case '3,8,30':
-        teacher = '貞 麥 嫻 銳 芬';
+      case "3,8,30":
+        teacher = "貞 麥 嫻 銳 芬";
         break;
-      case '3,9,0':
-        teacher = '貞 嫻 湯 蒙';
+      case "3,9,0":
+        teacher = "貞 嫻 湯 蒙";
         break;
-      case '3,9,30':
-        teacher = '林 關 湯 慕 蒙';
+      case "3,9,30":
+        teacher = "林 關 湯 慕 蒙";
         break;
-      case '3,10,15':
-        teacher = '林 銳 湯 蒙';
+      case "3,10,15":
+        teacher = "林 銳 湯 蒙";
         break;
-      case '3,10,45':
-        teacher = '林 吳 貞 關 麥 銳 芬 慕';
+      case "3,10,45":
+        teacher = "林 吳 貞 關 麥 銳 芬 慕";
         break;
-      case '3,11,15':
-        teacher = '林 貞 關 麥 嫻 銳';
+      case "3,11,15":
+        teacher = "林 貞 關 麥 嫻 銳";
         break;
-      case '3,12,0':
-        teacher = '';
+      case "3,12,0":
+        teacher = "";
         break;
-      case '3,12,30':
-        teacher = '';
+      case "3,12,30":
+        teacher = "";
         break;
       // Thursday
-      case '4,8,30':
-        teacher = '林 貞 麥 銳 芬 湯 慕 蒙';
+      case "4,8,30":
+        teacher = "林 貞 麥 銳 芬 湯 慕 蒙";
         break;
-      case '4,9,0':
-        teacher = '林 貞 關 麥 嫻 芬 湯 蒙';
+      case "4,9,0":
+        teacher = "林 貞 關 麥 嫻 芬 湯 蒙";
         break;
-      case '4,9,30':
-        teacher = '吳 關 麥 銳 芬 湯';
+      case "4,9,30":
+        teacher = "吳 關 麥 銳 芬 湯";
         break;
-      case '4,10,15':
-        teacher = '吳 貞 麥 嫻 慕';
+      case "4,10,15":
+        teacher = "吳 貞 麥 嫻 慕";
         break;
-      case '4,10,45':
-        teacher = '林 嫻 慕';
+      case "4,10,45":
+        teacher = "林 嫻 慕";
         break;
-      case '4,11,15':
-        teacher = '林 嫻 銳 蒙';
+      case "4,11,15":
+        teacher = "林 嫻 銳 蒙";
         break;
-      case '4,12,0':
-        teacher = '林 吳 貞 關 銳 湯 慕 蒙';
+      case "4,12,0":
+        teacher = "林 吳 貞 關 銳 湯 慕 蒙";
         break;
-      case '4,12,30':
-        teacher = '林 吳 貞 關 湯 慕 蒙';
+      case "4,12,30":
+        teacher = "林 吳 貞 關 湯 慕 蒙";
         break;
       // Friday
-      case '5,8,30':
-        teacher = '林 貞 關 麥 嫻 銳 芬 蒙';
+      case "5,8,30":
+        teacher = "林 貞 關 麥 嫻 銳 芬 蒙";
         break;
-      case '5,9,0':
-        teacher = '貞 關 嫻 芬 湯 慕 蒙';
+      case "5,9,0":
+        teacher = "貞 關 嫻 芬 湯 慕 蒙";
         break;
-      case '5,9,30':
-        teacher = '吳 關 湯 慕';
+      case "5,9,30":
+        teacher = "吳 關 湯 慕";
         break;
-      case '5,10,15':
-        teacher = '林 麥 銳 慕';
+      case "5,10,15":
+        teacher = "林 麥 銳 慕";
         break;
-      case '5,10,45':
-        teacher = '林 貞 嫻 銳 慕';
+      case "5,10,45":
+        teacher = "林 貞 嫻 銳 慕";
         break;
-      case '5,11,15':
-        teacher = '林 貞 銳 湯 蒙';
+      case "5,11,15":
+        teacher = "林 貞 銳 湯 蒙";
         break;
-      case '5,12,0':
-        teacher = '課外活動';
+      case "5,12,0":
+        teacher = "課外活動";
         break;
-      case '5,12,30':
-        teacher = '課外活動';
+      case "5,12,30":
+        teacher = "課外活動";
         break;
       default:
         break;
@@ -466,191 +463,191 @@ const CalendarTable = ({ user }) => {
       <form>
         <TextField
           required
-          id='Initial'
-          data-name='initial'
+          id="Initial"
+          data-name="initial"
           value={isNullOrUndefined(props.Initial) ? initialVal : props.Initial}
-          error={!props.Initial && initialVal === ''}
+          error={!props.Initial && initialVal === ""}
           onChange={(e) => {
             e.preventDefault();
             setInitialVal(e.target.value);
           }}
           disabled={!isNullOrUndefined(props.Initial)}
-          label='老師代號'
-          defaultValue={isNullOrUndefined(props.Initial) ? '' : props.Initial}
+          label="老師代號"
+          defaultValue={isNullOrUndefined(props.Initial) ? "" : props.Initial}
           inputRef={initial}
           select
           className={classes.formControl}
-          helperText='請選擇您的代號'
-          variant='outlined'
+          helperText="請選擇您的代號"
+          variant="outlined"
         >
-          <MenuItem value='林'>林</MenuItem>
-          <MenuItem value='吳'>吳</MenuItem>
-          <MenuItem value='貞'>貞</MenuItem>
-          <MenuItem value='關'>關</MenuItem>
-          <MenuItem value='麥'>麥</MenuItem>
-          <MenuItem value='嫻'>嫻</MenuItem>
-          <MenuItem value='銳'>銳</MenuItem>
-          <MenuItem value='芬'>芬</MenuItem>
-          <MenuItem value='湯'>湯</MenuItem>
-          <MenuItem value='慕'>慕</MenuItem>
-          <MenuItem value='蒙'>蒙</MenuItem>
-          <MenuItem value='青'>青</MenuItem>
-          <MenuItem value='謙'>謙</MenuItem>
-          <MenuItem value='蘭'>蘭</MenuItem>
-          <MenuItem value='美'>美</MenuItem>
-          <MenuItem value='張'>張</MenuItem>
-          <MenuItem value='晉'>晉</MenuItem>
-          <MenuItem value='何'>何</MenuItem>
-          <MenuItem value='冼'>冼</MenuItem>
-          <MenuItem value='英'>英</MenuItem>
-          <MenuItem value='基'>基</MenuItem>
-          <MenuItem value='綺'>綺</MenuItem>
-          <MenuItem value='寶'>寶</MenuItem>
-          <MenuItem value='黃'>黃</MenuItem>
-          <MenuItem value='洪'>洪</MenuItem>
-          <MenuItem value='許'>許</MenuItem>
-          <MenuItem value='玲'>玲</MenuItem>
-          <MenuItem value='胡'>胡</MenuItem>
-          <MenuItem value='華'>華</MenuItem>
-          <MenuItem value='蕭'>蕭</MenuItem>
-          <MenuItem value='君'>君</MenuItem>
-          <MenuItem value='秀'>秀</MenuItem>
-          <MenuItem value='韋'>韋</MenuItem>
-          <MenuItem value='葉'>葉</MenuItem>
-          <MenuItem value='廖'>廖</MenuItem>
-          <MenuItem value='龔'>龔</MenuItem>
-          <MenuItem value='陳'>陳</MenuItem>
-          <MenuItem value='瑜'>瑜</MenuItem>
-          <MenuItem value='盧'>盧</MenuItem>
-          <MenuItem value='孫'>孫</MenuItem>
-          <MenuItem value='曾'>曾</MenuItem>
-          <MenuItem value='鄧'>鄧</MenuItem>
-          <MenuItem value='倩'>倩</MenuItem>
-          <MenuItem value='淳'>淳</MenuItem>
-          <MenuItem value='賴'>賴</MenuItem>
-          <MenuItem value='Tessa'>Tessa</MenuItem>
+          {/* 所有老師代號 */}
+          <MenuItem value="林">林</MenuItem>
+          <MenuItem value="吳">吳</MenuItem>
+          <MenuItem value="貞">貞</MenuItem>
+          <MenuItem value="關">關</MenuItem>
+          <MenuItem value="麥">麥</MenuItem>
+          <MenuItem value="嫻">嫻</MenuItem>
+          <MenuItem value="銳">銳</MenuItem>
+          <MenuItem value="芬">芬</MenuItem>
+          <MenuItem value="湯">湯</MenuItem>
+          <MenuItem value="慕">慕</MenuItem>
+          <MenuItem value="蒙">蒙</MenuItem>
+          <MenuItem value="青">青</MenuItem>
+          <MenuItem value="謙">謙</MenuItem>
+          <MenuItem value="蘭">蘭</MenuItem>
+          <MenuItem value="美">美</MenuItem>
+          <MenuItem value="張">張</MenuItem>
+          <MenuItem value="晉">晉</MenuItem>
+          <MenuItem value="何">何</MenuItem>
+          <MenuItem value="冼">冼</MenuItem>
+          <MenuItem value="英">英</MenuItem>
+          <MenuItem value="基">基</MenuItem>
+          <MenuItem value="綺">綺</MenuItem>
+          <MenuItem value="寶">寶</MenuItem>
+          <MenuItem value="黃">黃</MenuItem>
+          <MenuItem value="洪">洪</MenuItem>
+          <MenuItem value="許">許</MenuItem>
+          <MenuItem value="玲">玲</MenuItem>
+          <MenuItem value="胡">胡</MenuItem>
+          <MenuItem value="華">華</MenuItem>
+          <MenuItem value="蕭">蕭</MenuItem>
+          <MenuItem value="君">君</MenuItem>
+          <MenuItem value="秀">秀</MenuItem>
+          <MenuItem value="韋">韋</MenuItem>
+          <MenuItem value="葉">葉</MenuItem>
+          <MenuItem value="廖">廖</MenuItem>
+          <MenuItem value="龔">龔</MenuItem>
+          <MenuItem value="陳">陳</MenuItem>
+          <MenuItem value="瑜">瑜</MenuItem>
+          <MenuItem value="盧">盧</MenuItem>
+          <MenuItem value="孫">孫</MenuItem>
+          <MenuItem value="曾">曾</MenuItem>
+          <MenuItem value="鄧">鄧</MenuItem>
+          <MenuItem value="倩">倩</MenuItem>
+          <MenuItem value="淳">淳</MenuItem>
+          <MenuItem value="賴">賴</MenuItem>
+          <MenuItem value="Tessa">Tessa</MenuItem>
         </TextField>
         <TextField
           required
-          id='ClassID'
-          data-name='classID'
+          id="ClassID"
+          data-name="classID"
           value={isNullOrUndefined(props.ClassID) ? classIdVal : props.ClassID}
-          error={!props.ClassID && classIdVal === ''}
+          error={!props.ClassID && classIdVal === ""}
           onChange={(e) => {
             e.preventDefault();
             setClassIdVal(e.target.value);
           }}
           disabled={!isNullOrUndefined(props.ClassID)}
-          label='班別'
-          defaultValue={isNullOrUndefined(props.ClassID) ? '' : props.ClassID}
+          label="班別"
+          defaultValue={isNullOrUndefined(props.ClassID) ? "" : props.ClassID}
           inputRef={classID}
           select
           className={classes.formControl}
-          helperText='請選擇班別'
-          variant='outlined'
+          helperText="請選擇班別"
+          variant="outlined"
         >
-          <MenuItem value='1A'>1A</MenuItem>
-          <MenuItem value='1B'>1B</MenuItem>
-          <MenuItem value='1C'>1C</MenuItem>
-          <MenuItem value='1D'>1D</MenuItem>
-          <MenuItem value='2A'>2A</MenuItem>
-          <MenuItem value='2B'>2B</MenuItem>
-          <MenuItem value='2C'>2C</MenuItem>
-          <MenuItem value='2D'>2D</MenuItem>
-          <MenuItem value='3A'>3A</MenuItem>
-          <MenuItem value='3B'>3B</MenuItem>
-          <MenuItem value='3C'>3C</MenuItem>
-          <MenuItem value='3D'>3D</MenuItem>
-          <MenuItem value='4A'>4A</MenuItem>
-          <MenuItem value='4B'>4B</MenuItem>
-          <MenuItem value='4C'>4C</MenuItem>
-          <MenuItem value='4D'>4D</MenuItem>
-          <MenuItem value='5A'>5A</MenuItem>
-          <MenuItem value='5B'>5B</MenuItem>
-          <MenuItem value='5C'>5C</MenuItem>
-          <MenuItem value='5D'>5D</MenuItem>
-          <MenuItem value='6A'>6A</MenuItem>
-          <MenuItem value='6B'>6B</MenuItem>
-          <MenuItem value='6C'>6C</MenuItem>
-          <MenuItem value='6D'>6D</MenuItem>
+          {/* 所有班別 */}
+          <MenuItem value="1A">1A</MenuItem>
+          <MenuItem value="1B">1B</MenuItem>
+          <MenuItem value="1C">1C</MenuItem>
+          <MenuItem value="1D">1D</MenuItem>
+          <MenuItem value="2A">2A</MenuItem>
+          <MenuItem value="2B">2B</MenuItem>
+          <MenuItem value="2C">2C</MenuItem>
+          <MenuItem value="2D">2D</MenuItem>
+          <MenuItem value="3A">3A</MenuItem>
+          <MenuItem value="3B">3B</MenuItem>
+          <MenuItem value="3C">3C</MenuItem>
+          <MenuItem value="3D">3D</MenuItem>
+          <MenuItem value="4A">4A</MenuItem>
+          <MenuItem value="4B">4B</MenuItem>
+          <MenuItem value="4C">4C</MenuItem>
+          <MenuItem value="4D">4D</MenuItem>
+          <MenuItem value="5A">5A</MenuItem>
+          <MenuItem value="5B">5B</MenuItem>
+          <MenuItem value="5C">5C</MenuItem>
+          <MenuItem value="5D">5D</MenuItem>
+          <MenuItem value="6A">6A</MenuItem>
+          <MenuItem value="6B">6B</MenuItem>
+          <MenuItem value="6C">6C</MenuItem>
+          <MenuItem value="6D">6D</MenuItem>
         </TextField>
         <TextField
           required
-          id='Major'
-          label='科目'
-          defaultValue={isNullOrUndefined(props.Major) ? '' : props.Major}
+          id="Major"
+          label="科目"
+          defaultValue={isNullOrUndefined(props.Major) ? "" : props.Major}
           value={isNullOrUndefined(props.Major) ? majorVal : props.Major}
-          error={!props.Major && majorVal === ''}
+          error={!props.Major && majorVal === ""}
           onChange={(e) => {
             e.preventDefault();
             setMajorVal(e.target.value);
           }}
           disabled={!isNullOrUndefined(props.Major)}
-          // onChange={(e) => {e.preventDefault();setClassIdVal(e.target.value);}}
-
           inputRef={major}
           select
-          // fullWidth
           className={classes.formControl}
-          helperText='請選擇科目'
-          variant='outlined'
+          helperText="請選擇科目"
+          variant="outlined"
         >
-          <MenuItem value='中'>中</MenuItem>
-          <MenuItem value='英'>英</MenuItem>
-          <MenuItem value='數'>數</MenuItem>
-          <MenuItem value='常'>常</MenuItem>
-          <MenuItem value='視'>視</MenuItem>
-          <MenuItem value='音'>音</MenuItem>
-          <MenuItem value='體'>體</MenuItem>
-          <MenuItem value='普'>普</MenuItem>
-          <MenuItem value='資'>資</MenuItem>
-          <MenuItem value='圖'>圖</MenuItem>
+          {/* 所有科目 */}
+          <MenuItem value="中">中</MenuItem>
+          <MenuItem value="英">英</MenuItem>
+          <MenuItem value="數">數</MenuItem>
+          <MenuItem value="常">常</MenuItem>
+          <MenuItem value="視">視</MenuItem>
+          <MenuItem value="音">音</MenuItem>
+          <MenuItem value="體">體</MenuItem>
+          <MenuItem value="普">普</MenuItem>
+          <MenuItem value="資">資</MenuItem>
+          <MenuItem value="圖">圖</MenuItem>
         </TextField>
         <TextField
           fullWidth
-          id='StartTime'
-          label='開始時間'
-          type='datetime-local'
+          id="StartTime"
+          label="開始時間"
+          type="datetime-local"
           className={classes.formControl}
           disabled
           inputRef={startTime}
-          value={moment(startTimeVal).format('YYYY-MM-DDTHH:mm')}
+          value={moment(startTimeVal).format("YYYY-MM-DDTHH:mm")}
           InputLabelProps={{
             shrink: true,
           }}
-          variant='outlined'
-          helperText='Disabled'
+          variant="outlined"
+          helperText="Disabled"
           inputProps={{
             step: 900,
           }}
         />
         <TextField
           fullWidth
-          id='EndTime'
-          label='完結時間'
+          id="EndTime"
+          label="完結時間"
           inputRef={endTime}
           className={classes.formControl}
-          type='datetime-local'
+          type="datetime-local"
           disabled
-          helperText='Disabled'
+          helperText="Disabled"
           value={moment(startTimeVal)
-            .add(30, 'minutes')
-            .format('YYYY-MM-DDTHH:mm')}
+            .add(30, "minutes")
+            .format("YYYY-MM-DDTHH:mm")}
           InputLabelProps={{
             shrink: true,
           }}
-          variant='outlined'
+          variant="outlined"
           inputProps={{
             step: 900,
           }}
         />
         <TextField
           fullWidth
-          id='standard-read-only-input'
-          label='空堂主任'
+          id="standard-read-only-input"
+          label="空堂主任"
           className={classes.formControl}
           defaultValue={freeTeacher}
-          variant='outlined'
+          variant="outlined"
           InputProps={{
             readOnly: true,
           }}
@@ -663,30 +660,30 @@ const CalendarTable = ({ user }) => {
 
   const handleModalOk = () => {
     setModalOpen(false);
-    db.collection('Events')
+    db.collection("Events")
       .doc(bookedLesson.Id)
       .delete()
       .then(function () {
-        console.log('Document successfully deleted!');
-        setBookedLesson({ Subject: '' });
+        console.log("Document successfully deleted!");
+        setBookedLesson({ Subject: "" });
         scheduleObj.current.refresh();
       })
       .catch(function (error) {
-        console.error('Error removing document: ', error);
+        console.error("Error removing document: ", error);
       });
   };
 
   return (
     <>
       <ScheduleComponent
-        width='80vw'
-        height='90vh'
-        locale='zh-Hant-HK'
+        width="80vw"
+        height="90vh"
+        locale="zh-Hant-HK"
         ref={scheduleObj}
-        currentView='WorkWeek'
+        currentView="WorkWeek"
         // selectedDate={new Date(2021, 1, 18)}
-        startHour='8:00'
-        endHour='13:00'
+        startHour="8:00"
+        endHour="13:00"
         workHours={{
           highlight: false,
         }}
@@ -709,22 +706,20 @@ const CalendarTable = ({ user }) => {
         renderCell={onRenderCell.bind(this)}
       >
         <ViewsDirective>
-          <ViewDirective option='WorkWeek' />
-          <ViewDirective option='Month' showWeekend={false} readonly={true} />
-          <ViewDirective option='Agenda' readonly={true} />
+          <ViewDirective option="WorkWeek" />
+          <ViewDirective option="Month" showWeekend={false} readonly={true} />
+          <ViewDirective option="Agenda" readonly={true} />
         </ViewsDirective>
         <Inject services={[WorkWeek, Month, Agenda]} />
       </ScheduleComponent>
       <Dialog
         disableBackdropClick
         disableEscapeKeyDown
-        maxWidth='xs'
-        // onEntering={handleEntering}
-        aria-labelledby='confirmation-dialog-title'
+        maxWidth="xs"
+        aria-labelledby="confirmation-dialog-title"
         open={modalOpen}
-        // {...other}
       >
-        <DialogTitle id='confirmation-dialog-title'>警告</DialogTitle>
+        <DialogTitle id="confirmation-dialog-title">警告</DialogTitle>
         <DialogContent dividers>
           <Typography>
             已預約課堂，如需更改日期時間，請先刪除以下課堂：
@@ -732,14 +727,10 @@ const CalendarTable = ({ user }) => {
           <Typography>{bookedLesson.Subject}</Typography>
         </DialogContent>
         <DialogActions>
-          <Button
-            autoFocus
-            onClick={() => setModalOpen(false)}
-            // color='primary'
-          >
+          <Button autoFocus onClick={() => setModalOpen(false)}>
             返回
           </Button>
-          <Button onClick={() => handleModalOk()} color='primary'>
+          <Button onClick={() => handleModalOk()} color="primary">
             立即刪除
           </Button>
         </DialogActions>
